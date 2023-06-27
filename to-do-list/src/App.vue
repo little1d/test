@@ -30,13 +30,13 @@ const removeTodo = todo => {
   todos.value = todos.value.filter(t => t !== todo)
 }
 
-const clearAll = () =>{
+const clearAll = () => {
   todos.value = []
 }
 
 onMounted(() => {
   name.value = localStorage.getItem('name'),
-  todos.value = JSON.parse(localStorage.getItem('todos')) || []
+    todos.value = JSON.parse(localStorage.getItem('todos')) || []
 })
 
 watch(todos, newVal => {
@@ -58,9 +58,9 @@ import {
 </script>
 
 <template>
-  <div class="common-layout flex flex-col container mx-auto relative w-90 h-70">
-    <div class="place-content-center">Welcome to your to-do-list!</div>
-    <el-input v-model="name" placeholder="name here!" class="w-50 m-2" size="large" />
+  <div class="common-layout flex flex-col container mx-auto relative w-90 h-70 gap-8">
+    <div class="">Welcome to your to-do-list!</div>
+    <el-input v-model="name" placeholder="name here!" class="" size="large" />
     <el-container>
       <el-header>
         <div>Create-todo</div>
@@ -71,32 +71,31 @@ import {
       <el-main>
         <div>Pick a category</div>
         <el-radio-group v-model="input_category" size="large">
-          <el-radio-button label="School" value="School"/>
-          <el-radio-button label="Home" value="Home"/>
-          <el-radio-button label="Club" value="Club"/>
-          <el-radio-button label="Friends" value="Friends"/>
+          <el-radio-button label="School" value="School" />
+          <el-radio-button label="Home" value="Home" />
+          <el-radio-button label="Club" value="Club" />
+          <el-radio-button label="Friends" value="Friends" />
         </el-radio-group>
         <div>
-          {{ input_category }}
         </div>
       </el-main>
       <el-button type="primary" @click="addTodo">Add to do</el-button>
       <el-footer class="space-y-3">
-        <div >To do list</div>
-
-        <div class="flex flex-col space-y-5" >
-
-          <div v-for="todo in todos_asc" >
-
-            <div class="todo-content" >
-              <input type="checkbox" v-model="todo.done">
-              <input type="text" v-model="todo.content">
-              <el-button type="danger" :icon="Delete" @click="removeTodo(todo)">delete</el-button>
+        <div>To do list</div>
+        <div class="flex flex-col space-y-5">
+          <!-- 创建to-do-list -->
+          <div v-for="todo in todos_asc">
+            <div class="todo-content flex flex-row">
+              <input type="checkbox" v-model="todo.done" class="flex-none">
+              <span v-if="todo.done" style="text-decoration: line-through" class="flex-1">{{ todo.content }}</span>
+              <span v-else class="flex-1">{{ todo.content }}</span>
+              <el-button type="danger" :icon="Delete" circle @click="removeTodo(todo)" class="flex-none"></el-button>
             </div>
-            
           </div>
         </div>
-        <el-button type="danger" @click="clearAll">clear all</el-button>
+        <div class="content-center	">
+          <el-button type="danger" :icon="Delete" @click="clearAll" class="center w-36 hover:w-40">clear all</el-button>
+        </div>
 
       </el-footer>
     </el-container>
@@ -104,5 +103,4 @@ import {
 </template>
 
 
-<style scoped>
-</style>
+<style scoped></style>
