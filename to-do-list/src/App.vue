@@ -58,6 +58,7 @@ import {
 </script>
 
 <template>
+  111
   <div class="py-5" style="background-image: url(./q.jpg);">
     <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-screen px-20 mx-20 saturate-50 backdrop-blur-sm">
     <div class="common-layout flex flex-col container px-80 gap-5 font-bold font-black">
