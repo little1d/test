@@ -2,14 +2,14 @@
 import { ref, computed, watch, onMounted } from 'vue'
 
 const todos = ref([])
+const categories = ref([])
 const name = ref('')
 const input_content = ref('')
-const input_category = ref(null)
-const categories = ref([])
+const input_category = ref('')
 const radio = ref('School')
 
 const addCategories = () => {
-  const newCategory =  prompt('please input your new category!')
+  const newCategory =  prompt('please input your new category here')
   if(newCategory && !categories.value.includes(newCategory)){
     categories.value.push(newCategory)
   }
@@ -43,7 +43,7 @@ const clearAll = () => {
 onMounted(() => {
   name.value = localStorage.getItem('name'),
   todos.value = JSON.parse(localStorage.getItem('todos')) || [],
-  categories.value = localStorage.getItem('categories')
+  categories.value = JSON.parse(localStorage.getItem('categories')) || ['home','work']
 })
 
 watch(todos, newVal => {
@@ -54,9 +54,9 @@ watch(name, (newVal) => {
   localStorage.setItem('name', newVal)
 })
 
-watch(categories,(newVal) => {
-  localStorage.setItem('categories',newVal)
-})
+watch(categories, newVal => {
+  localStorage.setItem('categories',JSON.stringify(newVal))
+},{deep:true})
 
 import {
   Check,
@@ -84,7 +84,7 @@ import {
       <el-main>
         <div class="py-2">Pick a category</div>
         <el-radio-group v-model="input_category" size="large" class="flex gap-4 py-4">
-          <el-radio-button  v-for="category in categories" :label="category" :key="category"/>
+          <el-radio-button  v-for="category in categories" :label="category"/>
           <!-- 事件冒泡 -->
           <el-radio-button label="add..." @click="addCategories"/>
         </el-radio-group>
