@@ -2,16 +2,21 @@
 import { ref, computed, watch, onMounted } from 'vue'
 
 const todos = ref([])
+const categories = ref([])
 const name = ref('')
 const input_content = ref('')
-const input_category = ref(null)
+const input_category = ref('')
 
-const radio = ref('School')
+const addCategories = () => {
+  const newCategory =  prompt('please input your new category here')
+  if(newCategory && !categories.value.includes(newCategory)){
+    categories.value.push(newCategory)
+  }
+}
 
 const todos_asc = computed(() => todos.value.sort((a, b) => {
   return b.createdAt - a.createdAt
 }))
-
 
 
 const addTodo = () => {
@@ -36,7 +41,8 @@ const clearAll = () => {
 
 onMounted(() => {
   name.value = localStorage.getItem('name'),
-    todos.value = JSON.parse(localStorage.getItem('todos')) || []
+  todos.value = JSON.parse(localStorage.getItem('todos')) || [],
+  categories.value = JSON.parse(localStorage.getItem('categories')) || ['home','work']
 })
 
 watch(todos, newVal => {
@@ -46,6 +52,10 @@ watch(todos, newVal => {
 watch(name, (newVal) => {
   localStorage.setItem('name', newVal)
 })
+
+watch(categories, newVal => {
+  localStorage.setItem('categories',JSON.stringify(newVal))
+},{deep:true})
 
 import {
   Check,
@@ -58,6 +68,7 @@ import {
 </script>
 
 <template>
+  <div class="py-5">
     <div class="bg-gradient-to-r from-purple-500 to-pink-500 h-screen px-20 mx-20 saturate-50 backdrop-blur-sm">
     <div class="common-layout flex flex-col container px-80 gap-5 font-bold font-black">
     <div class="py-5">Welcome to your to-do-list!
@@ -72,10 +83,9 @@ import {
       <el-main>
         <div class="py-2">Pick a category</div>
         <el-radio-group v-model="input_category" size="large" class="flex gap-4 py-4">
-          <el-radio-button label="School" value="School" class=""/>
-          <el-radio-button label="Home" value="Home" />
-          <el-radio-button label="Club" value="Club" />
-          <el-radio-button label="Friends" value="Friends" />
+          <el-radio-button  v-for="category in categories" :label="category"/>
+          <!-- 事件冒泡 -->
+          <el-radio-button label="add..." @click.prevent="addCategories"/>
         </el-radio-group>
         <div>
         </div>
