@@ -6,7 +6,6 @@ const categories = ref([])
 const name = ref('')
 const input_content = ref('')
 const input_category = ref('')
-const radio = ref('School')
 
 const addCategories = () => {
   const newCategory =  prompt('please input your new category here')
@@ -86,7 +85,7 @@ import {
         <el-radio-group v-model="input_category" size="large" class="flex gap-4 py-4">
           <el-radio-button  v-for="category in categories" :label="category"/>
           <!-- 事件冒泡 -->
-          <el-radio-button label="add..." @click="addCategories"/>
+          <el-radio-button label="add..." @click.prevent="addCategories"/>
         </el-radio-group>
         <div>
         </div>
